@@ -18,7 +18,7 @@ def wordle():
     gw = WordleGWindow()
 
     # Pick a random word from the list of five-letter words
-    chosen_word = random.choice(FIVE_LETTER_WORDS)
+    chosen_word = random.choice(FIVE_LETTER_WORDS).upper()
 
     # Display the chosen word in the first row of boxes
     for i in range(N_COLS):
@@ -31,4 +31,3 @@ def wordle():
 
 if __name__ == "__main__":
     wordle()
-    
