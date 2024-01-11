@@ -12,21 +12,26 @@ def wordle():
 
     gw = WordleGWindow()
 
-    def enter_action(guess):
+    def enter_action(sGuess):
+         # Convert the word to lowercase for consistency
+        sWord = sGuess.lower()
+
+        #Initialize a variable to stop execution if there is not enough letters 
+        bValidGuess = True 
+
         # Check if the entered word is exactly five letters long
-        if len(guess) != N_COLS:
-            gw.show_message("Word must be 5 letters.")
-            return
+        if len(sGuess) != N_COLS:
+            gw.show_message("Not enough letters")
+            bValidGuess= False
 
-        # Convert the word to lowercase for consistency
-        word = guess.lower()
-
-        # Check if the word is in the list of valid words
-        if word in FIVE_LETTER_WORDS:
-            gw.show_message("Valid word!")
-            
-        else:
-            gw.show_message("Not in word list")
+       # Proceed only if the guess is valid
+        if bValidGuess:
+            # Check if the word is in the list of valid words
+            if sWord in FIVE_LETTER_WORDS:
+                gw.show_message("Valid word!")
+                
+            else:
+                gw.show_message("Not in word list")
 
     gw.add_enter_listener(enter_action)
 
