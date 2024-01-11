@@ -15,6 +15,7 @@ def wordle():
 
     # Pick a random word as the answer
     sAnswer = random.choice(FIVE_LETTER_WORDS)
+    print(sAnswer)
 
     def enter_action(sGuess):
         # Convert the word to lowercase. Strip is used to get rid of the padding
@@ -28,27 +29,33 @@ def wordle():
         else:
          # Creating a list of colors and setting each square to the default of grey
             lColors = [MISSING_COLOR] * N_COLS
-
+            iCurrentRow = gw.get_current_row()
+            print(lColors)
             # Check for correct letters in the correct place
             for letter in range(N_COLS):
-                if sGuess[letter] == sAnswer[letter]:
+                sLetter = gw.get_square_letter(iCurrentRow, letter).lower()
+                print(letter)
+                print(N_COLS)
+                print(sAnswer[letter] + "sAnswer")
+                print(sLetter + "sLetter")
+                print (sWord[letter] +" sWord")
+                if sWord[letter] == sAnswer[letter]:
                     lColors[letter] = CORRECT_COLOR
 
             # Check for correct letters in the wrong place
             for letter in range(N_COLS):
-                if lColors[letter] == MISSING_COLOR and sGuess[letter] in sAnswer:
+                if lColors[letter] == MISSING_COLOR and sWord[letter] in sAnswer:
                     # Only color it yellow if the letter is not already correctly used. This is done by comparing guesses
                     # up to but not including the current position.
-                    if sAnswer.count(sGuess[letter]) > sGuess[:letter].count(sGuess[letter]):
+                    if sAnswer.count(sWord[letter]) > sWord[:letter].count(sWord[letter]):
                         lColors[letter] = PRESENT_COLOR
 
             # Update the display with the appropriate colors
-            iCurrentRow = gw.get_current_row()
             for letter in range(N_COLS):
                 gw.set_square_color(iCurrentRow, letter, lColors[letter])
             
             # Display congratulation message if the answer was guessed
-            if sGuess == sAnswer:
+            if sWord == sAnswer:
                 gw.show_message("Nice job!!")
             elif iCurrentRow < N_ROWS:
                 iCurrentRow += 1
