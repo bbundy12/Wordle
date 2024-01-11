@@ -1,29 +1,32 @@
 # File: Wordle.py
 
 """
-This module is the starter file for the Wordle assignment.
-BE SURE TO UPDATE THIS COMMENT WHEN YOU WRITE THE CODE.
+This file meets the requirements for milestone 2 by indicating if the word a user submits is 
+valid or not. 
 """
-
-import random
 
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 
 def wordle():
 
-    def enter_action(s):
-        gw.show_message("You have to implement this method.")
-
     gw = WordleGWindow()
 
-    # Pick a random word from the list of five-letter words
-    chosen_word = random.choice(FIVE_LETTER_WORDS).upper()
+    def enter_action(guess):
+        # Check if the entered word is exactly five letters long
+        if len(guess) != N_COLS:
+            gw.show_message("Word must be 5 letters.")
+            return
 
-    # Display the chosen word in the first row of boxes
-    for i in range(N_COLS):
-        letter = chosen_word[i]
-        gw.set_square_letter(0, i, letter)
+        # Convert the word to lowercase for consistency
+        word = guess.lower()
+
+        # Check if the word is in the list of valid words
+        if word in FIVE_LETTER_WORDS:
+            gw.show_message("Valid word!")
+            
+        else:
+            gw.show_message("Not in word list")
 
     gw.add_enter_listener(enter_action)
 
