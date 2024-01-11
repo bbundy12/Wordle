@@ -14,7 +14,7 @@ def wordle():
 
     def enter_action(sGuess):
          # Convert the word to lowercase for consistency
-        sWord = sGuess.lower()
+        sWord = sGuess.lower().strip()
 
         # Check if the entered word is exactly five letters long
         if len(sWord) != N_COLS:

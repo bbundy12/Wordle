@@ -17,22 +17,15 @@ def wordle():
     sAnswer = random.choice(FIVE_LETTER_WORDS)
 
     def enter_action(sGuess):
-        # Convert the word to lowercase
-        sWord = sGuess.lower()
-
-        #Initialize a variable to stop execution if there is not enough letters 
-        bValidGuess = True 
+        # Convert the word to lowercase. Strip is used to get rid of the padding
+        sWord = sGuess.lower().strip()
 
        # Check if the entered word is exactly five letters long
         if len(sWord) != N_COLS:
             gw.show_message("Not enough letters")
-            bValidGuess = False
         elif sWord not in FIVE_LETTER_WORDS:
             gw.show_message("Not in word list")
-            bValidGuess = False
-        
-        # Proceed only if the guess is valid
-        if bValidGuess:
+        else:
          # Creating a list of colors and setting each square to the default of grey
             lColors = [MISSING_COLOR] * N_COLS
 
