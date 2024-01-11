@@ -16,22 +16,15 @@ def wordle():
          # Convert the word to lowercase for consistency
         sWord = sGuess.lower()
 
-        #Initialize a variable to stop execution if there is not enough letters 
-        bValidGuess = True 
-
         # Check if the entered word is exactly five letters long
-        if len(sGuess) != N_COLS:
+        if len(sWord) != N_COLS:
             gw.show_message("Not enough letters")
-            bValidGuess= False
+        elif sWord in FIVE_LETTER_WORDS:
+            gw.show_message("Valid word!")
+        else:
+            gw.show_message("Not in word list")
 
-       # Proceed only if the guess is valid
-        if bValidGuess:
-            # Check if the word is in the list of valid words
-            if sWord in FIVE_LETTER_WORDS:
-                gw.show_message("Valid word!")
-                
-            else:
-                gw.show_message("Not in word list")
+    gw.add_enter_listener(enter_action)
 
     gw.add_enter_listener(enter_action)
 
