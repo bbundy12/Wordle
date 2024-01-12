@@ -36,14 +36,23 @@ def wordle():
                 sLetter = gw.get_square_letter(iCurrentRow, letter).lower()
                 if sWord[letter] == sAnswer[letter]:
                     lColors[letter] = CORRECT_COLOR
+                    # Update key color to green if not already set to green
+                    if gw.get_key_color(sLetter.upper()) != CORRECT_COLOR:
+                        gw.set_key_color(sLetter.upper(), CORRECT_COLOR)
 
-            # Check for correct letters in the wrong place
-            for letter in range(N_COLS):
-                if lColors[letter] == MISSING_COLOR and sWord[letter] in sAnswer:
+                # Check for correct letters in the wrong place
+                elif lColors[letter] == MISSING_COLOR and sWord[letter] in sAnswer:
                     # Only color it yellow if the letter is not already correctly used. This is done by comparing guesses
                     # up to but not including the current position.
                     if sAnswer.count(sWord[letter]) > sWord[:letter].count(sWord[letter]):
                         lColors[letter] = PRESENT_COLOR
+                        # Update key color to yellow if it's not green or yellow
+                        if gw.get_key_color(sLetter.upper()) not in [CORRECT_COLOR, PRESENT_COLOR]:
+                            gw.set_key_color(sLetter.upper(), PRESENT_COLOR)
+                else:
+                # Set key to gray if it's not in the answer and not already colored
+                    if gw.get_key_color(sLetter.upper()) not in [CORRECT_COLOR, PRESENT_COLOR]:
+                        gw.set_key_color(sLetter.upper(), MISSING_COLOR)
 
             # Update the display with the appropriate colors
             for letter in range(N_COLS):
