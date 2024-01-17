@@ -14,7 +14,7 @@ def wordle():
     gw = WordleGWindow()
 
     # Pick a random word as the answer
-    sAnswer = random.choice(FIVE_LETTER_WORDS)
+    sAnswer = "mushy"# random.choice(FIVE_LETTER_WORDS)
     print(sAnswer)
 
     def enter_action(sGuess):
