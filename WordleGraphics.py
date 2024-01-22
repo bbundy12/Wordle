@@ -8,7 +8,9 @@ graphical display for the Wordle project.
 import atexit
 import math
 import time
+from tkinter import Button
 import tkinter
+import tkinter.messagebox
 
 # Constants
 
@@ -64,6 +66,14 @@ class WordleGWindow:
     def __init__(self):
         """Creates the Wordle window."""
 
+        play_colorblind = tkinter.messagebox.askyesno("Colorblind Mode", "Would you like to play in color-blind mode?")
+
+        global CORRECT_COLOR, PRESENT_COLOR 
+        if play_colorblind:
+            # User chose to play in color-blind mode, set alternative colors
+            CORRECT_COLOR = "#0047AB"  
+            PRESENT_COLOR = "#FFA500" 
+        
         def create_grid():
             return [
                 [
@@ -170,6 +180,27 @@ class WordleGWindow:
         self._row = 0
         self._col = 0
         atexit.register(start_event_loop)
+
+        # self._keys = create_keyboard()
+
+        # # Colorblind button
+        # self.colorblind_button = Button(self._root, text="Colorblind Mode", command="self.toggle_colorblind_mode")
+        # self.colorblind_button.pack()
+
+    # def toggle_colorblind_mode(self):
+            
+    #     alt_correct_color = "#0047AB"  # Replace with a suitable color
+    #     alt_present_color = "#FFA500"  # Replace with a suitable color
+
+    #     # Check current color mode and switch
+    #     if CORRECT_COLOR == "#66BB66":  # Assuming default is the normal mode
+    #         CORRECT_COLOR = alt_correct_color
+    #         PRESENT_COLOR = alt_present_color
+    #     else:
+    #         CORRECT_COLOR = "#66BB66"  # Reset to original colors
+    #         PRESENT_COLOR = "#CCBB66"
+        
+    #     return("I got clicked")
 
     def get_square_letter(self, row, col):
         return self._grid[row][col].get_letter()

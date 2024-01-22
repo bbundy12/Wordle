@@ -6,15 +6,17 @@ coloring of the letters and displays the appropriate messages.
 """
 
 from WordleDictionary import FIVE_LETTER_WORDS
-from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
+from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, MISSING_COLOR
 import random
 
 def wordle():
 
     gw = WordleGWindow()
 
+    from WordleGraphics import CORRECT_COLOR, PRESENT_COLOR
+
     # Pick a random word as the answer
-    sAnswer = 'mushy' # random.choice(FIVE_LETTER_WORDS)
+    sAnswer = random.choice(FIVE_LETTER_WORDS)
     print(sAnswer)  # For debugging purposes; remove or comment out in the final version
 
     def enter_action(sGuess):
