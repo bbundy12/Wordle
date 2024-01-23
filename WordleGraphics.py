@@ -314,13 +314,17 @@ class WordleMessage:
 import tkinter as tk
 
 class CustomDialog(tk.Toplevel):
-    def __init__(self, parent, title="", message="", callback=None):
+    def __init__(self, parent, title="", message=""):
         super().__init__(parent)
-        self.callback = callback
+        # self.transient(parent) 
+        self.grab_set()
         self.title(title)
 
         # Set the size of the dialog
         self.geometry("400x200")  # Width x Height
+        
+        # Set the window to be always on top
+        self.attributes('-topmost', True)
 
         # Create a label for the message
         msg_label = tk.Label(self, text=message, wraplength=350)
@@ -349,8 +353,6 @@ class CustomDialog(tk.Toplevel):
     def user_choice(self, choice):
         self.user_response = choice
         self.destroy()
-        if self.callback:  
-            self.callback(choice)
 
     def on_close(self):
         self.user_response = None  # User closed the dialog

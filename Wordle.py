@@ -12,16 +12,21 @@ import tkinter as tk
 
 def wordle(root):
 
+    gw = WordleGWindow(root)
+     
     # Show the custom dialog
     dialog = CustomDialog(root, title="Colorblind Mode", message="Would you like to play in color-blind mode?")
     root.wait_window(dialog)
 
-    if dialog.user_response is True:
-        global CORRECT_COLOR, PRESENT_COLOR
-        CORRECT_COLOR = "#0047AB"
-        PRESENT_COLOR = "#FFA500"
-    
-    gw = WordleGWindow(root)
+    # Bring the Wordle window to the front
+    root.lift()
+
+    if dialog.user_response is not None:
+        # User made a choice; proceed with creating the Wordle game window
+        if dialog.user_response:
+            global CORRECT_COLOR, PRESENT_COLOR
+            CORRECT_COLOR = "#0047AB"
+            PRESENT_COLOR = "#FFA500"
 
     # Pick a random word as the answer
     sAnswer = random.choice(FIVE_LETTER_WORDS)
