@@ -6,14 +6,22 @@ coloring of the letters and displays the appropriate messages.
 """
 
 from WordleDictionary import FIVE_LETTER_WORDS
-from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, MISSING_COLOR
+from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, MISSING_COLOR, CustomDialog, CORRECT_COLOR, PRESENT_COLOR
 import random
+import tkinter as tk
 
-def wordle():
+def wordle(root):
 
-    gw = WordleGWindow()
+    # Show the custom dialog
+    dialog = CustomDialog(root, title="Colorblind Mode", message="Would you like to play in color-blind mode?")
+    root.wait_window(dialog)
 
-    from WordleGraphics import CORRECT_COLOR, PRESENT_COLOR
+    if dialog.user_response is True:
+        global CORRECT_COLOR, PRESENT_COLOR
+        CORRECT_COLOR = "#0047AB"
+        PRESENT_COLOR = "#FFA500"
+    
+    gw = WordleGWindow(root)
 
     # Pick a random word as the answer
     sAnswer = random.choice(FIVE_LETTER_WORDS)
@@ -56,24 +64,29 @@ def wordle():
                         answer_letter_count[sWord[letter]] -= 1
                         if gw.get_key_color(sLetter.upper()) not in [CORRECT_COLOR, PRESENT_COLOR]:
                             gw.set_key_color(sLetter.upper(), PRESENT_COLOR)
-                    elif gw.get_key_color(sLetter.upper()) not in [CORRECT_COLOR, PRESENT_COLOR]:
-                        gw.set_key_color(sLetter.upper(), MISSING_COLOR)
+                elif gw.get_key_color(sLetter.upper()) not in [CORRECT_COLOR, PRESENT_COLOR]:
+                    gw.set_key_color(sLetter.upper(), MISSING_COLOR)
 
             # Update the display with the appropriate colors
             for letter in range(N_COLS):
                 gw.set_square_color(iCurrentRow, letter, lColors[letter])
 
-            # Display congratulation message if the answer was guessed
             if sWord == sAnswer:
                 gw.show_message("Nice job!!")
-            elif iCurrentRow < N_ROWS:
-                iCurrentRow += 1
-                gw.set_current_row(iCurrentRow)
             else:
-                gw.show_message("Better luck next time")
+                # Check if the game should continue or display a message
+                if iCurrentRow < N_ROWS - 1:
+                    iCurrentRow += 1
+                    gw.set_current_row(iCurrentRow)
+                else:
+                    gw.show_message("Better luck next time")
 
     gw.add_enter_listener(enter_action)
+    
 
 # Startup code
 if __name__ == "__main__":
-    wordle()
+    root = tk.Tk()
+    root.title("Wordle")
+    wordle(root)
+    root.mainloop()

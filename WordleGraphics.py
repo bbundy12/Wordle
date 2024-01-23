@@ -10,7 +10,6 @@ import math
 import time
 from tkinter import Button
 import tkinter
-import tkinter.messagebox
 
 # Constants
 
@@ -63,16 +62,10 @@ MESSAGE_Y = TOP_MARGIN + BOARD_HEIGHT + MESSAGE_SEP
 class WordleGWindow:
     """This class creates the Wordle window."""
 
-    def __init__(self):
+    def __init__(self,root):
         """Creates the Wordle window."""
 
-        play_colorblind = tkinter.messagebox.askyesno("Colorblind Mode", "Would you like to play in color-blind mode?")
-
-        global CORRECT_COLOR, PRESENT_COLOR 
-        if play_colorblind:
-            # User chose to play in color-blind mode, set alternative colors
-            CORRECT_COLOR = "#0047AB"  
-            PRESENT_COLOR = "#FFA500" 
+        self._root = root
         
         def create_grid():
             return [
@@ -159,10 +152,6 @@ class WordleGWindow:
             """Starts the tkinter event loop when the program exits."""
             root.mainloop()
 
-        root = tkinter.Tk()
-        root.title("Wordle")
-        root.protocol("WM_DELETE_WINDOW", delete_window)
-        self._root = root
         canvas = tkinter.Canvas(root,
                                 bg="White",
                                 width=CANVAS_WIDTH,
@@ -180,27 +169,6 @@ class WordleGWindow:
         self._row = 0
         self._col = 0
         atexit.register(start_event_loop)
-
-        # self._keys = create_keyboard()
-
-        # # Colorblind button
-        # self.colorblind_button = Button(self._root, text="Colorblind Mode", command="self.toggle_colorblind_mode")
-        # self.colorblind_button.pack()
-
-    # def toggle_colorblind_mode(self):
-            
-    #     alt_correct_color = "#0047AB"  # Replace with a suitable color
-    #     alt_present_color = "#FFA500"  # Replace with a suitable color
-
-    #     # Check current color mode and switch
-    #     if CORRECT_COLOR == "#66BB66":  # Assuming default is the normal mode
-    #         CORRECT_COLOR = alt_correct_color
-    #         PRESENT_COLOR = alt_present_color
-    #     else:
-    #         CORRECT_COLOR = "#66BB66"  # Reset to original colors
-    #         PRESENT_COLOR = "#CCBB66"
-        
-    #     return("I got clicked")
 
     def get_square_letter(self, row, col):
         return self._grid[row][col].get_letter()
@@ -342,3 +310,57 @@ class WordleMessage:
     def set_text(self, text, color="Black"):
         self._text = text
         self._canvas.itemconfigure(self._msg, text=text, fill=color)
+
+import tkinter as tk
+
+class CustomDialog(tk.Toplevel):
+    def __init__(self, parent, title="", message="", callback=None):
+        super().__init__(parent)
+        self.callback = callback
+        self.title(title)
+
+        # Set the size of the dialog
+        self.geometry("400x200")  # Width x Height
+
+        # Create a label for the message
+        msg_label = tk.Label(self, text=message, wraplength=350)
+        msg_label.pack(pady=20)
+        
+        # Frame to hold buttons
+        button_frame = tk.Frame(self)
+        button_frame.pack(pady=20)
+
+        # Create Yes and No buttons within the frame
+        yes_button = tk.Button(button_frame, text="Yes", command=lambda: self.user_choice(True))
+        no_button = tk.Button(button_frame, text="No", command=lambda: self.user_choice(False))
+        yes_button.pack(side="left", padx=10)
+        no_button.pack(side="right", padx=10)
+        
+
+        # Handle the close ('X') button
+        self.protocol("WM_DELETE_WINDOW", self.on_close)
+
+        # Center the dialog on the screen
+        self.center_window()
+
+        # Variable to store user's choice
+        self.user_response = None
+
+    def user_choice(self, choice):
+        self.user_response = choice
+        self.destroy()
+        if self.callback:  
+            self.callback(choice)
+
+    def on_close(self):
+        self.user_response = None  # User closed the dialog
+        self.destroy()
+
+    def center_window(self):
+        self.update_idletasks()
+        width = self.winfo_width()
+        height = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.winfo_screenheight() // 2) - (height // 2)
+        self.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
