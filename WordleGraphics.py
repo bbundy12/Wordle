@@ -103,13 +103,16 @@ class WordleGWindow:
                 ch = tke.upper()
             else:
                 ch = tke.char.upper()
-            if ch == "\007" or ch == "\177" or ch == "DELETE" or ch == "\b" or ch == "\x7f" or ch == "BACKSPACE":
+            
+            print("Key pressed:", ch) # For figuring out what the computer sees when delete or enter are pressed on Mac
+
+            if ch == "\007" or ch == "\177" or ch == "DELETE" or ch == "\b" or ch == "\x7F" or ch == "BACKSPACE":
                 self.show_message("")
                 if self._row < N_ROWS and self._col > 0:
                     self._col -= 1
                     sq = self._grid[self._row][self._col]
                     sq.set_letter(" ")
-            elif ch == "\r" or ch == "\n" or ch == "ENTER" or ch == "\x0a" or ch == "KP_ENTER":
+            elif ch == "\r" or ch == "\n" or ch == "ENTER" or ch == "\x0A" or ch == "KP_ENTER" or ch == "RETURN":
                 self.show_message("")
                 s = ""
                 for col in range(N_COLS):
