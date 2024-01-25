@@ -102,7 +102,7 @@ class WordleGWindow:
             if isinstance(tke, str):
                 ch = tke.upper()
             else:
-                ch = tke.char.upper()
+                ch = tke.keysym.upper()
             
             print("Key pressed:", ch) # For figuring out what the computer sees when delete or enter are pressed on Mac
 
