@@ -103,8 +103,6 @@ class WordleGWindow:
                 ch = tke.upper()
             else:
                 ch = tke.keysym.upper()
-            
-            print("Key pressed:", ch) # For figuring out what the computer sees when delete or enter are pressed on Mac
 
             if ch == "\007" or ch == "\177" or ch == "DELETE" or ch == "\b" or ch == "\x7F" or ch == "BACKSPACE":
                 self.show_message("")
