@@ -9,8 +9,13 @@ from WordleDictionary import FIVE_LETTER_WORDS, FIVE_LETTER_WORDS_S
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, MISSING_COLOR, CustomDialog, CORRECT_COLOR, PRESENT_COLOR
 import random
 import tkinter as tk
+from tkinter import messagebox
+
 
 def wordle(root):
+
+    guess_count = 0
+    guess_count += 1 
 
     gw = WordleGWindow(root)
      
@@ -88,6 +93,8 @@ def wordle(root):
 
             if sWord == sAnswer:
                 gw.show_message("Nice job!!")
+                messagebox.showinfo("Game Over", f"Congratulations! You guessed the word in {guess_count} attempts.")
+
             else:
                 # Check if the game should continue or display a message
                 if iCurrentRow < N_ROWS - 1:
@@ -95,6 +102,8 @@ def wordle(root):
                     gw.set_current_row(iCurrentRow)
                 else:
                     gw.show_message("Better luck next time")
+                    messagebox.showinfo("Game Over", f"Out of attempts! The word was {sAnswer}. You tried {guess_count} times.")
+
 
     gw.add_enter_listener(enter_action)
 
