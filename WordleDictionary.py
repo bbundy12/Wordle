@@ -833,3 +833,5 @@ FIVE_LETTER_WORDS = [
     "zones", "zonks", "zooey", "zooid", "zooks", "zooms", "zoons",
     "zoril", "zowie", "zymes"
 ]
+
+FIVE_LETTER_WORDS_S = ["corre", "perro", "burla", "besos", "fajar"]

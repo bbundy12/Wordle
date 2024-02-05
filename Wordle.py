@@ -5,7 +5,7 @@ This file meets the requirements for milestone 3 by allowing the user to try to 
 coloring of the letters and displays the appropriate messages.
 """
 
-from WordleDictionary import FIVE_LETTER_WORDS
+from WordleDictionary import FIVE_LETTER_WORDS, FIVE_LETTER_WORDS_S
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, MISSING_COLOR, CustomDialog, CORRECT_COLOR, PRESENT_COLOR
 import random
 import tkinter as tk
@@ -18,6 +18,10 @@ def wordle(root):
     dialog = CustomDialog(root, title="Colorblind Mode", message="Would you like to play in color-blind mode?")
     root.wait_window(dialog)
 
+        # Show the custom language
+    language = CustomDialog(root, title="Lanuage Selection", message="Le gustaria jugar en espanol?")
+    root.wait_window(language)
+
     # Bring the Wordle window to the front
     root.lift()
 
@@ -28,8 +32,14 @@ def wordle(root):
             CORRECT_COLOR = "#0047AB"
             PRESENT_COLOR = "#FFA500"
 
+    if language.user_response is not None:
+        if language.user_response:
+            global language_type
+            language_type = FIVE_LETTER_WORDS_S
+
+
     # Pick a random word as the answer
-    sAnswer = random.choice(FIVE_LETTER_WORDS)
+    sAnswer = random.choice(language_type)
     print(sAnswer)  # For debugging purposes; remove or comment out in the final version
 
     def enter_action(sGuess):
@@ -39,7 +49,7 @@ def wordle(root):
         # Check if the entered word is exactly five letters long
         if len(sWord) != N_COLS:
             gw.show_message("Not enough letters")
-        elif sWord not in FIVE_LETTER_WORDS:
+        elif sWord not in language_type:
             gw.show_message("Not in word list")
         else:
             # Creating a list of colors, setting each square to the default of gray
@@ -87,7 +97,7 @@ def wordle(root):
                     gw.show_message("Better luck next time")
 
     gw.add_enter_listener(enter_action)
-    
+
 
 # Startup code
 if __name__ == "__main__":
